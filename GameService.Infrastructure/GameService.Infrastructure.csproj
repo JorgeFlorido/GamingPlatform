@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GameService.Application\GameService.Application.csproj" />
+    <ProjectReference Include="..\GameService.Domain\GameService.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
