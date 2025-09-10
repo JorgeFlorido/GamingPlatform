@@ -7,12 +7,12 @@ using UserService.Infrastructure.Repositories;
 
 namespace UserService.Infrastructure.Extensions
 {
-  public static class InfrastructureServiceCollectionExtensions
+  public static class DependencyInjection
   {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
       services.AddDbContext<UserDbContext>(options =>
-          options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+          options.UseSqlServer(configuration.GetConnectionString("UserDb")));
       services.AddScoped<IUserRepository, UserRepository>();
       return services;
     }

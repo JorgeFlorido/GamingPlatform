@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PaymentService.Domain.Entities
+﻿namespace PaymentService.Domain.Entities
 {
-  internal class PaymentProvider
+  public class PaymentProvider
   {
+    public int Id { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public bool IsActive { get; set; }
   }
 }

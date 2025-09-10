@@ -1,6 +1,6 @@
 ﻿namespace PaymentService.Domain.Interfaces
 {
-  public class IPaymentRepository
+  public interface IPaymentRepository
   {
   }
 }
