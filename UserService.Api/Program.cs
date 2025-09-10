@@ -1,3 +1,4 @@
+using UserService.Application.Extensions;
 using UserService.Infrastructure.Extensions;
 
 namespace UserService.Api
@@ -9,6 +10,7 @@ namespace UserService.Api
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddInfrastructureServices(builder.Configuration);
+            builder.Services.AddApplicationServices();
 
             builder.Services.AddControllers();
 

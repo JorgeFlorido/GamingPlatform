@@ -18,7 +18,7 @@ namespace UserService.Api.Controllers
     [HttpPost("register")]
     public async Task<ActionResult<UserResponse>> Register(RegisterUserRequest request)
     {
-      var user = await _userRegistrationService.RegisterUserAsync(request.Username, request.Email, request.Password);
+      var user = await _userRegistrationService.RegisterAsync(request.Username, request.Email, request.Password);
       return Ok(user);
     }
   }

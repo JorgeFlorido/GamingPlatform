@@ -3,7 +3,7 @@ using PaymentService.Domain.Entities;
 
 namespace PaymentService.Infrastructure.Persistence
 {
-  internal class PaymentDbContext : DbContext
+  public class PaymentDbContext : DbContext
   {
     public PaymentDbContext(DbContextOptions<PaymentDbContext> options) : base(options)
     {

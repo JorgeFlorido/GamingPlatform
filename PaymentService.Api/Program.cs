@@ -1,6 +1,5 @@
 
-using PaymentService.Application.Interfaces;
-using PaymentService.Application.Providers;
+using PaymentService.Application.Extensions;
 using PaymentService.Infrastructure.Extensions;
 
 namespace PaymentService.Api
@@ -12,6 +11,7 @@ namespace PaymentService.Api
       var builder = WebApplication.CreateBuilder(args);
 
       builder.Services.AddInfrastructureServices(builder.Configuration);
+      builder.Services.AddApplicationServices();
 
       builder.Services.AddControllers();
 

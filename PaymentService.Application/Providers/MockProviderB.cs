@@ -14,6 +14,8 @@ namespace PaymentService.Application.Providers
     {
       var result = new PaymentResult
       {
+        PaymentId = payment.Id,
+        TransactionId = Guid.NewGuid(),
         Status = PaymentStatus.Pending,
         Message = "Payment processed by MockProviderB"
       };
