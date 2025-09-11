@@ -13,7 +13,13 @@ namespace PaymentService.Infrastructure.Extensions
     {
       services.AddDbContext<PaymentDbContext>(options =>
           options.UseSqlServer(configuration.GetConnectionString("PaymentDb")));
+
+      services.AddDbContext<WalletDbContext>(options =>
+          options.UseSqlServer(configuration.GetConnectionString("PaymentDb")));
+
       services.AddScoped<IPaymentRepository, PaymentRepository>();
+      services.AddScoped<IWalletRepository, WalletRepository>();
+
       return services;
     }
   }

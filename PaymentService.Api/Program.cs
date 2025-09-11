@@ -1,4 +1,5 @@
 
+using PaymentService.Api.Extensions;
 using PaymentService.Application.Extensions;
 using PaymentService.Infrastructure.Extensions;
 
@@ -12,6 +13,8 @@ namespace PaymentService.Api
 
       builder.Services.AddInfrastructureServices(builder.Configuration);
       builder.Services.AddApplicationServices();
+      builder.Services.AddMediator();
+      builder.Services.AddHostedServices();
 
       builder.Services.AddControllers();
 

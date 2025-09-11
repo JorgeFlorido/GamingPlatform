@@ -14,9 +14,9 @@ namespace PaymentService.Application.Handlers
       _paymentService = paymentService;
     }
 
-    public Task<PaymentResult> Handle(MakePaymentCommand request, CancellationToken cancellationToken)
+    public async Task<PaymentResult> Handle(MakePaymentCommand request, CancellationToken cancellationToken)
     {
-      return _paymentService.MakePaymentAsync(
+      return await _paymentService.MakePaymentAsync(
           request.UserId,
           request.PaymentId,
           request.PaymentProviderId,

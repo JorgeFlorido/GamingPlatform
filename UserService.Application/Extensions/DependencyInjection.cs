@@ -30,7 +30,7 @@ namespace UserService.Application.Extensions
         BootstrapServers = bootstrapServers
       };
 
-      services.AddSingleton(new KafkaEventPublisher(config));
+      services.AddSingleton<IEventPublisher>(new KafkaEventPublisher(config));
       return services;
     }
   }
