@@ -10,7 +10,10 @@ namespace UserService.Api
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddInfrastructureServices(builder.Configuration);
+
             builder.Services.AddApplicationServices();
+            builder.Services.AddMediator();
+            builder.Services.AddKafkaServices(builder.Configuration);
 
             builder.Services.AddControllers();
 
