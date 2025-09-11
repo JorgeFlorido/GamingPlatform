@@ -5,7 +5,7 @@ using PaymentService.Application.Interfaces;
 
 namespace PaymentService.Application.Handlers
 {
-  public class MakePaymentHandler : IRequestHandler<MakePaymentCommand, PaymentResult>
+  internal class MakePaymentHandler : IRequestHandler<MakePaymentCommand, PaymentResult>
   {
     private readonly IPaymentsService _paymentService;
 

@@ -2,8 +2,10 @@
 
 namespace UserService.Application.Interfaces
 {
-  public interface IUserRegistrationService
+  public interface IUsersService
   {
     Task<UserResponse> RegisterAsync(string username, string email, string password);
+    Task<UserResponse> GetUserByIdAsync(Guid userId);
+    Task<List<UserResponse>> GetUsersAsync();
   }
 }

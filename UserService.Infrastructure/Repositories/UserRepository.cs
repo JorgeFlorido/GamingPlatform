@@ -29,17 +29,14 @@ namespace UserService.Infrastructure.Repositories
         await _context.SaveChangesAsync();
       }
     }
-
-    public async Task<User?> GetByEmailAsync(string email)
+    public async Task<IEnumerable<User>> GetAllAsync()
     {
-      return await _context.Users
-        .FirstOrDefaultAsync(u => u.Email == email);
+      return await _context.Users.ToListAsync();
     }
 
-    public async Task<User?> GetByUsernameAsync(string username)
+    public Task<User?> GetByIdAsync(Guid id)
     {
-      return await _context.Users
-        .FirstOrDefaultAsync(u => u.Username == username);
+      return _context.Users.FirstOrDefaultAsync(u => u.Id == id);
     }
   }
 }

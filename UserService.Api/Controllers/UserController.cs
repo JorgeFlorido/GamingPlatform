@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using UserService.Application.DTOs;
-using UserService.Application.Interfaces;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using UserService.Application.Commands;
+using UserService.Application.Requests;
 
 namespace UserService.Api.Controllers
 {
@@ -8,18 +9,33 @@ namespace UserService.Api.Controllers
   [ApiController]
   public class UserController : ControllerBase
   {
-    private readonly IUserRegistrationService _userRegistrationService;
+    private readonly IMediator _mediator;
 
-    public UserController(IUserRegistrationService userRegistrationService)
+    public UserController(IMediator mediator)
     {
-      _userRegistrationService = userRegistrationService;
+      _mediator = mediator;
     }
 
     [HttpPost("register")]
-    public async Task<ActionResult<UserResponse>> Register(RegisterUserRequest request)
+    public async Task<IActionResult> Register([FromBody] RegisterUserCommand command)
     {
-      var user = await _userRegistrationService.RegisterAsync(request.Username, request.Email, request.Password);
-      return Ok(user);
+      var result = await _mediator.Send(command);
+      return Ok(result);
+    }
+
+    [HttpGet("get-users")]
+    public async Task<IActionResult> GetUsers()
+    {
+      var result = await _mediator.Send(new GetUsersRequest());
+      return Ok(result);
+    }
+
+    [HttpGet("get-user-by-id/{id:guid}")]
+    public async Task<IActionResult> GetUserById(Guid id)
+    {
+      var request = new GetUserByIdRequest(id);
+      var result = await _mediator.Send(request);
+      return Ok(result);
     }
   }
 }
