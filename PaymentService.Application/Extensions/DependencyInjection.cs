@@ -13,8 +13,10 @@ namespace PaymentService.Application.Extensions
       services.AddScoped<IPaymentProvider, MockProviderA>();
       services.AddScoped<IPaymentProvider, MockProviderB>();
 
+      services.AddScoped<IPaymentProviderStrategy, PaymentProviderStrategy>();
       services.AddScoped<IPaymentsService, PaymentsService>();
       services.AddScoped<IWalletService, WalletService>();
+
       return services;
     }
 

@@ -6,17 +6,16 @@ namespace PaymentService.Application.Services
 {
   public class PaymentsService : IPaymentsService
   {
-    private readonly IEnumerable<IPaymentProvider> _providers;
+    private readonly IPaymentProviderStrategy _providerStrategy;
 
-    public PaymentsService(IEnumerable<IPaymentProvider> providers)
+    public PaymentsService(IPaymentProviderStrategy providerStrategy)
     {
-      _providers = providers;
+      _providerStrategy = providerStrategy;
     }
 
     public async Task<PaymentResult> MakePaymentAsync(Guid userId, Guid paymentId, Guid paymentProviderId, decimal amount, string currency, CancellationToken cancellationToken)
     {
-      IPaymentProvider provider = _providers.FirstOrDefault(p => p.Id == paymentProviderId)
-                                  ?? _providers.First();
+      var provider = _providerStrategy.GetProvider(paymentProviderId);
 
       var payment = new Payment(paymentId, userId, amount, currency);
 
