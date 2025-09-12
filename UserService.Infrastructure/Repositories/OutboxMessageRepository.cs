@@ -1,4 +1,5 @@
-﻿using UserService.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using UserService.Domain.Entities;
 using UserService.Domain.Interfaces;
 using UserService.Infrastructure.Persistence;
 
@@ -21,7 +22,11 @@ namespace UserService.Infrastructure.Repositories
 
     public async Task<IEnumerable<OutboxMessage>> GetPendingMessagesAsync()
     {
-      return await Task.FromResult(_context.OutboxMessages.Where(m => !m.Processed).ToList());
+      return await _context.OutboxMessages
+        .AsNoTracking()
+        .Where(m => !m.Processed)
+        .OrderBy(m => m.CreatedAt)
+        .ToListAsync();
     }
 
     public async Task MarkAsProcessedAsync(Guid messageId)
@@ -30,6 +35,7 @@ namespace UserService.Infrastructure.Repositories
       if (message != null)
       {
         message.Processed = true;
+        message.ProcessedOn = DateTime.UtcNow;
         await _context.SaveChangesAsync();
       }
     }

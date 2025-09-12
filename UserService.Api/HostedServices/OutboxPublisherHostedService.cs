@@ -5,30 +5,35 @@ namespace UserService.Api.HostedServices
 {
   public class OutboxPublisherHostedService : BackgroundService
   {
-    private readonly IOutboxMessageRepository _outboxRepository;
-    private readonly IKafkaEventPublisher _eventPublisher;
+    private readonly IServiceScopeFactory _scopeFactory;
 
-    public OutboxPublisherHostedService(
-        IOutboxMessageRepository outboxRepository,
-        IKafkaEventPublisher eventPublisher)
+    public OutboxPublisherHostedService(IServiceScopeFactory scopeFactory)
     {
-      _outboxRepository = outboxRepository;
-      _eventPublisher = eventPublisher;
+      _scopeFactory = scopeFactory;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-      while (!stoppingToken.IsCancellationRequested)
+      var timer = new PeriodicTimer(TimeSpan.FromSeconds(1));
+      try
       {
-        var messages = await _outboxRepository.GetPendingMessagesAsync();
-
-        foreach (var msg in messages)
+        while (await timer.WaitForNextTickAsync(stoppingToken))
         {
-          await _eventPublisher.PublishAsync(msg.Payload, msg.Topic, stoppingToken);
-          await _outboxRepository.MarkAsProcessedAsync(msg.Id);
-        }
+          using var scope = _scopeFactory.CreateScope();
+          var outboxRepository = scope.ServiceProvider.GetRequiredService<IOutboxMessageRepository>();
+          var eventPublisher = scope.ServiceProvider.GetRequiredService<IKafkaEventPublisher>();
 
-        await Task.Delay(1000, stoppingToken);
+          var messages = await outboxRepository.GetPendingMessagesAsync();
+          foreach (var msg in messages)
+          {
+            await eventPublisher.PublishAsync(msg.Payload, msg.Topic, stoppingToken);
+            await outboxRepository.MarkAsProcessedAsync(msg.Id);
+          }
+        }
+      }
+      catch (OperationCanceledException)
+      {
+        // graceful shutdown
       }
     }
   }

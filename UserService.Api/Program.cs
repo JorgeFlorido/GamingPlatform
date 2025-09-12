@@ -1,3 +1,4 @@
+using UserService.Api.Extensions;
 using UserService.Application.Extensions;
 using UserService.Infrastructure.Extensions;
 
@@ -14,6 +15,8 @@ namespace UserService.Api
             builder.Services.AddApplicationServices();
             builder.Services.AddMediator();
             builder.Services.AddKafkaServices(builder.Configuration);
+
+            builder.Services.AddHostedServices();
 
             builder.Services.AddControllers();
 
