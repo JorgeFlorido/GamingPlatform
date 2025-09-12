@@ -10,6 +10,7 @@ namespace UserService.Infrastructure.Persistence
     }
 
     public DbSet<User> Users { get; set; } = null!;
+    public DbSet<OutboxMessage> OutboxMessages { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

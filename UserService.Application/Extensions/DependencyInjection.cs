@@ -1,4 +1,5 @@
 using Confluent.Kafka;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using UserService.Application.Handlers;
@@ -11,7 +12,9 @@ namespace UserService.Application.Extensions
   {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
+      services.AddScoped<IPasswordHasher<IdentityUser>, PasswordHasher<IdentityUser>>();
       services.AddScoped<IUsersService, UsersService>();
+      services.AddScoped<IOutboxEventPublisher, OutboxEventPublisher>();
       return services;
     }
 
@@ -30,7 +33,7 @@ namespace UserService.Application.Extensions
         BootstrapServers = bootstrapServers
       };
 
-      services.AddSingleton<IEventPublisher>(new KafkaEventPublisher(config));
+      services.AddSingleton<IKafkaEventPublisher>(new KafkaEventPublisher(config));
       return services;
     }
   }

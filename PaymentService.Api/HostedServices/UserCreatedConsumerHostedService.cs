@@ -50,7 +50,7 @@ namespace PaymentService.Api.HostedServices
 
           if (userCreatedEvent != null)
           {
-            await mediator.Send(new CreateWalletCommand(userCreatedEvent.UserId, userCreatedEvent.Currency), cancellationToken);
+            await mediator.Send(new CreateWalletCommand(userCreatedEvent.UserId, userCreatedEvent?.Currency ?? "USD"), cancellationToken);
           }
         }
       }

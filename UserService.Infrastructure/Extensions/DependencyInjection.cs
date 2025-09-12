@@ -13,7 +13,10 @@ namespace UserService.Infrastructure.Extensions
     {
       services.AddDbContext<UserDbContext>(options =>
           options.UseSqlServer(configuration.GetConnectionString("UserDb")));
+
       services.AddScoped<IUserRepository, UserRepository>();
+      services.AddScoped<IOutboxMessageRepository, OutboxMessageRepository>();
+
       return services;
     }
   }

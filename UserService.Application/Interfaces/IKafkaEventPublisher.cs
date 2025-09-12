@@ -1,7 +1,9 @@
-﻿namespace UserService.Application.Interfaces
+namespace UserService.Application.Interfaces
 {
-  public interface IEventPublisher
+  public interface IKafkaEventPublisher
   {
     Task PublishAsync<T>(T @event, string topic, CancellationToken cancellationToken = default) where T : class;
   }
 }
+
+

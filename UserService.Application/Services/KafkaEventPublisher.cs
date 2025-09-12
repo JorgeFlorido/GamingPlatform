@@ -4,7 +4,7 @@ using UserService.Application.Interfaces;
 
 namespace UserService.Application.Services
 {
-  internal class KafkaEventPublisher : IEventPublisher
+  internal class KafkaEventPublisher : IKafkaEventPublisher
   {
     private readonly IProducer<Null, string> _producer;
 

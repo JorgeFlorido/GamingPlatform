@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using UserService.Application.DTOs;
 using UserService.Application.Interfaces;
 using UserService.Domain.Entities;
@@ -9,10 +9,12 @@ namespace UserService.Application.Services
   public class UsersService : IUsersService
   {
     private readonly IUserRepository _userRepository;
+    private readonly IPasswordHasher<IdentityUser> _passwordHasher;
 
-    public UsersService(IUserRepository userRepository)
+    public UsersService(IUserRepository userRepository, IPasswordHasher<IdentityUser> passwordHasher)
     {
       _userRepository = userRepository;
+      _passwordHasher = passwordHasher;
     }
 
     public async Task<UserResponse> RegisterAsync(string username, string email, string password)
@@ -37,11 +39,11 @@ namespace UserService.Application.Services
       return users.Select(user => new UserResponse(user.Id, user.Username, user.Email)).ToList();
     }
 
-    private static string HashPassword(string password)
+    private string HashPassword(string password)
     {
-      var hasher = new PasswordHasher();
-      string hashed = hasher.HashPassword(password);
-      return hashed;
+      var tempUser = new IdentityUser();
+      string hashedPassword = _passwordHasher.HashPassword(tempUser, password);
+      return hashedPassword;
     }
   }
 }
